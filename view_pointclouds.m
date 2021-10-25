@@ -1,9 +1,11 @@
 clear;clc;
-obj = 'teapot';
-methods = {'TP','ICP'};
-type = 2;
 
-surfix = strcat('./data/',obj,'/');
+obj = {'teapot','bunny'};
+objs = 2;
+methods = {'ICP','benchmark'};
+type = 1;
+
+surfix = strcat('./data/',obj{objs},'/');
 ptCloud_path = strcat(surfix,'ptCloud_',methods{type});
 load(ptCloud_path, 'ptCloud');
 

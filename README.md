@@ -8,8 +8,12 @@ register scan with icp methods
 
 > check Tool T
 
-[ ] match scan with pure ICP
+[ ] filtering
 
-[ ] match scan with Generalized icp
+[ ] feature
+
+[ ] coarse registration
+
+[ ] refine registration
 
 [ ] try pseudo distance

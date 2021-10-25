@@ -1,6 +1,7 @@
 clear;clc;
 
-surfix = './../data/shell/';
+obj = 'wheel';
+surfix = strcat('./data/',obj,'/');
 
 % Tool_T = [sqrt(1/2) -sqrt(1/2) 0 0;
 %           -sqrt(1/2) -sqrt(1/2) 0 0;
@@ -26,4 +27,4 @@ for id = 1 : size(Ts,3)
     hold on
 end
 
-save([surfix,'/Ts_TP.mat'],'Ts')
+save([surfix,'/Ts_benchmark.mat'],'Ts')

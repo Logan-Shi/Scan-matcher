@@ -1,16 +1,12 @@
 clear;clc;
-obj = 'teapot';
-methods = {'TP','ICP'};
-type = 2;
-batch_size = 5;
+obj = 'bunny';
 surfix = strcat('./data/',obj,'/');
-for number = 1:batch_size
-    filename = [surfix,num2str(number),'.ply'];
-    ptCloudTrans{number} = pcread(filename);
-end
+ptCloud_path = strcat(surfix,'ptCloud_raw.mat');
+load(ptCloud_path,'ptCloud');
 
-for i = 2:size(ptCloudTrans,2)
-    ptCloudTrans{i} = pcmerge(ptCloudTrans{i-1},ptCloudTrans{i},0.01);
+ptCloudTrans{1} = ptCloud{1};
+for i = 2:length(ptCloud)
+    ptCloudTrans{i} = pcmerge(ptCloud{i},ptCloudTrans{i-1},0.0001);
 end
 
 ptCloud = ptCloudTrans{end};
@@ -21,5 +17,4 @@ player = pcplayer(xlimits,ylimits,zlimits);
 xlabel(player.Axes,'X (mm)');
 ylabel(player.Axes,'Y (mm)');
 zlabel(player.Axes,'Z (mm)');
-
 view(player,ptCloud);

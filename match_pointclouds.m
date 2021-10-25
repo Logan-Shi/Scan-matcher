@@ -1,32 +1,29 @@
 clear;clc;
 
-obj = 'teapot';
-batch_size = 2;
-methods = {'ICP'};
-mask = [];
+obj = {'teapot','bunny'};
+objs = 2;
+methods = {'ICP','benchmark'};
+types = 1;
 
-surfix = strcat('./data/',obj,'/');
-for type = 1:length(methods)
-    Ts_path = strcat(surfix,'Ts_',methods{type},'.mat');
-    load(Ts_path, 'Ts');
+for item = objs
+    surfix = strcat('./data/',obj{item},'/');
+    for type = types
+        Ts_path = strcat(surfix,'Ts_',methods{type},'.mat');
+        load(Ts_path, 'Ts');
+        ptCloud_path = strcat(surfix,'ptCloud_raw.mat');
+        load(ptCloud_path,'ptCloud');
 
-    count = 0;
-    for number = 1:batch_size
-        if any(number == mask)
-            continue
+        for number = 1:length(ptCloud)
+            T = Ts(:,:,number);
+            tform = rigid3d(T');
+            ptCloudTrans{number} = pctransform(ptCloud{number},tform);
         end
-        filename = [surfix,num2str(number),'.ply'];
-        ptCloud = pcread(filename);
-        T = Ts(:,:,number);
-        tform = rigid3d(T');
-        count = count+1;
-        ptCloudTrans{count} = pctransform(ptCloud,tform);
-    end
 
-    for i = 2:size(ptCloudTrans,2)
-        ptCloudTrans{i} = pcmerge(ptCloudTrans{i-1},ptCloudTrans{i},0.01);
-    end
+        for i = 2:size(ptCloudTrans,2)
+            ptCloudTrans{i} = pcmerge(ptCloudTrans{i-1},ptCloudTrans{i},0.001);
+        end
 
-    ptCloud = ptCloudTrans{end};
-    save([surfix,'/ptCloud_',methods{type},'.mat'],'ptCloud')
+        ptCloud = ptCloudTrans{end};
+        save([surfix,'/ptCloud_',methods{type},'.mat'],'ptCloud')
+    end
 end
