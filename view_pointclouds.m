@@ -1,9 +1,9 @@
 clear;clc;
 
 obj = {'teapot','bunny'};
-objs = 1;
+objs = 2;
 methods = {'ICP','benchmark','ICP_incre','FPFH'};
-type = 4;
+type = 1;
 
 surfix = strcat('./data/',obj{objs},'/');
 ptCloud_path = strcat(surfix,'ptCloud_',methods{type});

@@ -10,5 +10,7 @@ number = min(size(qs,1),batch_size);
 for id = 1:number
     Ts(:,:,id) = convert_bunny_pose(qs(id,:));
     ptCloud{id} = pcread(strcat(surfix,ptCloudFile{id}));
+    filepath = strcat(surfix,num2str(id),'.ply');
+    pcwrite(ptCloud{id},filepath);
 end
 end

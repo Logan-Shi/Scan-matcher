@@ -1,3 +1,5 @@
 *.asv
 data/
 paper/
+python/tutorial_env
+.idea/
