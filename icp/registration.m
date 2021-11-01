@@ -17,32 +17,36 @@ if isFPFH
     moving.Normal = pcnormals(moving);
     fixed_down = pcdownsample(fixed,'gridAverage',voxel_size);
     moving_down = pcdownsample(moving,'gridAverage',voxel_size);
-    fixedFeature = extractFPFHFeatures(fixed_down);
-    movingFeature = extractFPFHFeatures(moving_down);
+    fixed_feature = extractFPFHFeatures(fixed_down);
+    moving_feature = extractFPFHFeatures(moving_down);
     
-    [matchingPairs,scores] = pcmatchfeatures(fixedFeature,movingFeature,fixed_down,moving_down,...
-        "MatchThreshold", 0.003);
-    
-%     figure()
-%     plot(scores);
-%     index = scores>0.004;
-%     matchingPairs = matchingPairs(index,:);
-    matchedPts_fixed = select(fixed_down,matchingPairs(:,1));
-    matchedPts_moving = select(moving_down,matchingPairs(:,2));
-    
-    pcshowMatchedFeatures(fixed_down,moving_down,matchedPts_fixed,matchedPts_moving, ...
+    match_threshold = 40;
+    matching_pairs = findCorrespondenceFromFeature(moving_feature,fixed_feature,match_threshold);
+
+    matched_pts_moving = select(moving_down,matching_pairs(:,1));
+    matched_pts_fixed = select(fixed_down,matching_pairs(:,2));
+    pcshowMatchedFeatures(fixed_down,moving_down,matched_pts_fixed,matched_pts_moving, ...
         "Method","montage")
     title("Matched Points")
-  
-    tform = registration(matchedPts_moving,matchedPts_fixed,'icp');
+    
+    sample_size = 3;
+    [tform,ransac_pairs] = ransacCorrespondence(moving_down,fixed_down,matching_pairs,sample_size,voxel_size);
+    
+    matched_pts_moving = select(moving_down,ransac_pairs(:,1));
+    matched_pts_fixed = select(fixed_down,ransac_pairs(:,2));
+    
+    pcshowMatchedFeatures(fixed_down,moving_down,matched_pts_fixed,matched_pts_moving, ...
+        "Method","montage")
+    title("Matched Points")
+
     coarse = pctransform(moving_down,tform);
     pcshowpair(coarse, fixed_down)
-    tform = pcregistericp(moving,fixed, ...
+    [tform,refine,error] = pcregistericp(moving,fixed, ...
         'Metric', 'pointToPlane', ...
         'InlierRatio',0.8, ...
         'InitialTransform',tform, ...
         'Verbose', true);
-    refine = pctransform(moving,tform);
     pcshowpair(refine,fixed)
+    title(['Matched Points' num2str(error)])
 end
 end
