@@ -1,4 +1,4 @@
-function [best_tform,ransac_pairs] = ransacCorrespondence(moving,fixed,matching_pairs,sample_size,voxel_size)
+function [best_tform,ransac_pairs] = ransacCorrespondence(moving,fixed,matching_pairs,sample_size,voxel_size,is_graph)
 credibility = 0.999;
 inlier_percentage = 0.2;
 
@@ -21,8 +21,6 @@ while counter < max_iteration
     error = evaluateRansac(ransac_tform,moving,fixed,voxel_size);
 
     if error < least_error
-        pcshowMatchedFeatures(fixed,moving,sample_fixed, sample_moving)
-        title(['Matched Points' num2str(error)])
         least_error = error;
         ransac_pairs = sample_pairs;
         best_tform = ransac_tform;   

@@ -10,8 +10,7 @@ function loop_flag = checkPairs(moving,fixed,sample_pairs)
             dist_m = norm(p_m(id_check,:)-p_m(id,:));
             dist_f = norm(p_f(id_check,:)-p_f(id,:));
             ratio = dist_m/dist_f;
-            loop_flag = loop_flag && (ratio > 0.9);
-            loop_flag = loop_flag && (ratio < 1/0.9);
+            loop_flag = loop_flag && (ratio > 0.9) && (ratio < 1/0.9);
         end
     end
 end

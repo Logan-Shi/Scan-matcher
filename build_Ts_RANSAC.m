@@ -1,12 +1,15 @@
 clear;clc;
-obj = 'teapot';
-method = 'ICP';
+obj = 'bunny';
+voxel_size = 0.01;
+method = 'RANSAC';
+is_graph = true;
 surfix = strcat('./data/',obj,'/');
 ptCloud_path = strcat(surfix,'ptCloud_raw.mat');
 load(ptCloud_path,'ptCloud');
-
-for id = 2:length(ptCloud)
-    tform = registration(ptCloud{id},ptCloud{id-1},method);
+Tf = [];
+% profile on -historysize 50000000
+for id = 3%length(ptCloud)
+    tform = registration(ptCloud{id},ptCloud{id-1},method,voxel_size,is_graph);
     Tf(:,:,id-1) = tform.T';
 end
 

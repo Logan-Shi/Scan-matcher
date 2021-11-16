@@ -1,6 +1,6 @@
 clear;clc;
 obj = 'teapot';
-batch_size = 2;
+batch_size = 5;
 
 surfix = strcat('./data/',obj,'/');
 pt = pcread(strcat(obj,'.ply'));

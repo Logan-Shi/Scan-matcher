@@ -2,8 +2,9 @@ clear;clc;
 
 obj = {'teapot','bunny'};
 objs = 1;
-methods = {'ICP','benchmark','ICP_incre','FPFH'};
+methods = {'ICP','RANSAC','ZHOU','TEASER_incre'};
 types = 4;
+mask = 1:5;
 
 for item = objs
     surfix = strcat('./data/',obj{item},'/');
@@ -13,7 +14,7 @@ for item = objs
         ptCloud_path = strcat(surfix,'ptCloud_raw.mat');
         load(ptCloud_path,'ptCloud');
 
-        for number = 1:length(ptCloud)
+        for number = mask
             T = Ts(:,:,number);
             tform = rigid3d(T');
             ptCloudTrans{number} = pctransform(ptCloud{number},tform);
