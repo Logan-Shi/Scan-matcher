@@ -63,42 +63,42 @@ for i = 1:max_iteration
     end
     
     if is_graph
-%         visualizeWeight(src,dst,map,tims_num);
+        %         visualizeWeight(src,dst,map,tims_num);
         
         subplot(3,1,1)
         visualizeWeight(R*src,dst,map,[rand_seq inlier_seq],weights,c);
+        title('TLS-GNC for robust ICP problem')
         
         subplot(3,1,2)
         weightsRecorderRan = [weightsRecorderRan weights(rand_seq)'];
         hold off
-        for i = 1:tims_size
-            plot(weightsRecorderRan(i,:),'color',c(i+2,:));
+        for iter = 1:tims_size
+            plot(weightsRecorderRan(iter,:),'color',c(iter+2,:));
             hold on
         end
-%         set(gca, 'YScale', 'log')
+        %         set(gca, 'YScale', 'log')
         xlabel('iteration')
         ylabel('weight')
         title('random weight for GNC')
-%         axis([0 60 0 1])
+        %         axis([0 60 0 1])
         
         subplot(3,1,3)
         weightsRecorder = [weightsRecorder weights(inlier_seq)'];
         hold off
-        for i = 1:tims_size
-            plot(weightsRecorder(i,:),'color',c(i+2+tims_size,:));
+        for iter = 1:tims_size
+            plot(weightsRecorder(iter,:),'color',c(iter+2+tims_size,:));
             hold on
             
         end
-%         set(gca, 'YScale', 'log')
+        %         set(gca, 'YScale', 'log')
         xlabel('iteration')
         ylabel('weight')
         title('inlier weight for GNC')
-%         axis([0 60 0 1])
+        %         axis([0 60 0 1])
         set(gcf,'position',[0,0,500,900])
         drawnow
         frame = getframe(fig);
-        im = frame2im(frame);
-        [imind(:,:,1,i),mapgif] = rgb2ind(im,256);
+        im{i} = frame2im(frame);
     end
     
     cost_diff = abs(cost - prev_cost);
@@ -110,7 +110,12 @@ for i = 1:max_iteration
 end
 % tims_index = find(weights==1)
 filename = 'figs/test.gif';
-for idx = size(imind,4)
-    imwrite(imind,mapgif,filename,'gif','LoopCount',Inf,'DelayTime',0.05);
+for idx = 1:length(im)
+    [S,mapgif] = rgb2ind(im{idx},256);
+    if idx == 1
+        imwrite(S,mapgif,filename,'gif', 'Loopcount',inf,'DelayTime',0.5);
+    else
+        imwrite(S,mapgif,filename,'gif','WriteMode','append','DelayTime',0.16);
+    end
 end
 end

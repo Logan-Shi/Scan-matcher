@@ -6,8 +6,8 @@ x2 = [p3(1), p4(1)];
 y2 = [p3(2), p4(2)];
 z2 = [p3(3), p4(3)];
 if weight ~= 0
-    plot3(x1,y1,z1,'LineWidth',weight*5,'color',c)
-    plot3(x2,y2,z2,'LineWidth',weight*5,'color',c)
+    plot3(x1,y1,z1,'LineWidth',weight*2,'color',c)
+    plot3(x2,y2,z2,'LineWidth',weight*2,'color',c)
     axis equal
 end
 end
