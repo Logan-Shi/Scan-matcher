@@ -138,21 +138,18 @@ if isTEASER
     src = double(matched_pts_moving.Location');
     dst = double(matched_pts_fixed.Location');
     
-    R = teaserSolveR(src,dst,cbar2,noise_bound);
+    R = teaserSolveR(src,dst,cbar2,noise_bound,is_graph);
 
-%     if is_graph
-%         pcshowMatchedFeatures(fixed_down,moving_down,matched_pts_fixed,matched_pts_moving, ...
-%             "Method","montage")
-%         title("Matched Points")
-%     end
-    
-%     [s, R, t, time_taken] = teaser_solve(src, dst, 'Cbar2', cbar2, 'NoiseBound', noise_bound, ...
-%         'EstimateScaling', false, 'RotationCostThreshold', rot_cost_threshold);
+    [~, ~, t, time_taken] = teaser_solve(src, dst, 'Cbar2', cbar2, 'NoiseBound', noise_bound, ...
+        'EstimateScaling', false, 'RotationCostThreshold', rot_cost_threshold);
     T = eye(4);
     T(1:3,1:3) = R;
+    T(1:3,4) = t;
     tform = rigid3d(T');
     
     if is_graph
+        figure()
+        subplot(2,1,1)
         coarse = pctransform(moving_down,tform);
         pcshowpair(coarse, fixed_down)
     end
@@ -163,6 +160,7 @@ if isTEASER
         'InitialTransform',tform, ...
         'Verbose', is_graph);
     if is_graph
+        subplot(2,1,2)
         pcshowpair(reg,fixed)
         title(['Matched Points' num2str(error)])
     end
