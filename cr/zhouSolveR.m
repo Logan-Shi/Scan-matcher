@@ -1,4 +1,4 @@
-function [R,im] = teaserSolveR(src,dst,cbar2,noise_bound,is_graph)
+function R = zhouSolveR(src,dst,cbar2,noise_bound,is_graph)
 src_tims = computeTIM(src);
 dst_tims = computeTIM(dst);
 
@@ -13,10 +13,11 @@ map = src_tims(4:5,:);
 src_tims = src_tims(1:3,:);
 dst_tims = dst_tims(1:3,:);
 
-match_size = size(src_tims,2);
-mu = 1;
-prev_cost = inf;
 noise_bound_sq = noise_bound^2;
+match_size = size(src_tims,2);
+prev_cost = inf;
+mu = 1/noise_bound_sq;
+min_mu = 1;
 
 if is_graph
     tims_size = 5;
@@ -40,25 +41,11 @@ for i = 1:max_iteration
     R = svdRot(src_tims,dst_tims,weights);
     diffs = (dst_tims-R*src_tims).^2;
     residuals_sq = sum(diffs);
-    if i == 1
-        max_residual = max(residuals_sq);
-        mu = 1/(2*max_residual/noise_bound_sq-1);
-        if mu<=0
-            break;
-        end
-    end
-    th1 = (mu+1)/mu*noise_bound_sq;
-    th2 = mu/(mu+1)*noise_bound_sq;
+    scaled_mu = mu*noise_bound_sq;
     cost = 0;
     for j = 1:match_size
         cost = cost+weights(j)*residuals_sq(j);
-        if residuals_sq(j)>=th1
-            weights(j) = 0;
-        elseif residuals_sq(j)<=th2
-            weights(j) = 1;
-        else
-            weights(j) = sqrt(noise_bound_sq*mu*(mu+1)/residuals_sq(j))-mu;
-        end
+        weights(j) = (scaled_mu/(scaled_mu+residuals_sq(j)))^2;
     end
     
     if is_graph
@@ -66,7 +53,7 @@ for i = 1:max_iteration
         
         subplot(3,1,1)
         visualizeWeight(R*src,dst,map,[rand_seq inlier_seq],weights,c);
-        title('TLS-GNC for robust ICP problem')
+        title('GM-GNC for robust ICP problem')
         
         subplot(3,1,2)
         weightsRecorderRan = [weightsRecorderRan weights(rand_seq)'];
@@ -101,15 +88,15 @@ for i = 1:max_iteration
     end
     
     cost_diff = abs(cost - prev_cost);
-    mu = mu*1.4;
+    mu = mu/1.4;
     prev_cost = cost;
-    if cost_diff < cost_threshold
+    if cost_diff < cost_threshold || mu < min_mu
         break;
     end
 end
 % tims_index = find(weights==1)
 if is_graph
-    filename = 'figs/teaser.gif';
+    filename = 'figs/zhou.gif';
     for idx = 1:length(im)
         [S,mapgif] = rgb2ind(im{idx},256);
         if idx == 1

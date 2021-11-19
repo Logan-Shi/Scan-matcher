@@ -5,9 +5,11 @@ max_iteration = log(1-credibility)/log(1-inlier_percentage^sample_size);
 max_iteration = size(matching_pairs,1)*100;
 counter = 0;
 filtered_pairs = [];
+mov_pts = moving.Location;
+fix_pts = fixed.Location;
 while counter < max_iteration
     sample_pairs = sampleFromPairs(matching_pairs,sample_size);
-    if checkPairs(moving,fixed,sample_pairs)
+    if checkPairs(mov_pts,fix_pts,sample_pairs)
         filtered_pairs = [filtered_pairs;sample_pairs];
     end
     counter = counter + 1;

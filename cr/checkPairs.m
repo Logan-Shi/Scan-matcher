@@ -1,7 +1,7 @@
 function loop_flag = checkPairs(moving,fixed,sample_pairs)
     sample_size = size(sample_pairs,1);
-    p_m = select(moving,sample_pairs(:,1)).Location;
-    p_f = select(fixed,sample_pairs(:,2)).Location;
+    p_m = moving(sample_pairs(:,1),:);
+    p_f = fixed(sample_pairs(:,2),:);
 
     loop_flag = true;
     for id = 1:(sample_size-1)

@@ -16,13 +16,13 @@ ag=2*pi*rand(1);
 A1 = ag * axis1;
 
 if norm(A1) < 2e-16
-         R=eye(3);
+    R=eye(3);
 else a = A1 / norm(A1);
-K1=[0, -a(3), a(2); ...
-    a(3), 0, -a(1); ...
-    -a(2), a(1), 0];
-
-R = eye(3) + sin(norm(A1)) * K1 + (1 -cos(norm(A1))) * K1 * K1;
+    K1=[0, -a(3), a(2); ...
+        a(3), 0, -a(1); ...
+        -a(2), a(1), 0];
+    
+    R = eye(3) + sin(norm(A1)) * K1 + (1 -cos(norm(A1))) * K1 * K1;
 end
 
 
@@ -34,10 +34,10 @@ end
 pc_med= pts_3d * R';
 
 % add noise
-    for i=1:n_ele
+for i=1:n_ele
     pc_med(i,:)=pc_med(i,:)+noise*randn(1,3);
     pts_(i,:) = pc_med(i,:)/norm(pc_med(i,:));
-    end
+end
 
 pts_3d_=pts_;
 
@@ -45,14 +45,14 @@ pts_3d_=pts_;
 for i=1:round(n_ele*outlier_ratio)
     
     for iii=1:1e+18
-    rand_vec=2*1*rand(1,3)-1;
+        rand_vec=2*1*rand(1,3)-1;
         if norm(rand_vec)<=0.5*sqrt(3)*1
             break
         end
     end
     
-pts_3d_(i,:)=rand_vec/norm(rand_vec);
-
+    pts_3d_(i,:)=rand_vec/norm(rand_vec);
+    
 end
 
 end

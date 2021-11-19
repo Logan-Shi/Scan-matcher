@@ -1,6 +1,6 @@
-function T = svdRot(X,Y,W)
+function [T,S] = svdRot(X,Y,W)
 H = X*diag(W)*Y';
-[U,~,V] = svd(H);
+[U,S,V] = svd(H);
 if det(U)*det(V)<0
     V(:,end) = -V(:,end);
 end

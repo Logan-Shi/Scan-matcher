@@ -6,10 +6,12 @@ max_iteration = log(1-credibility)/log(1-inlier_percentage^sample_size);
 counter = 0;
 best_tform = rigid3d(eye(4));
 least_error = inf;
+mov_pts = moving.Location;
+fix_pts = fixed.Location;
 while counter < max_iteration
     sample_pairs = sampleFromPairs(matching_pairs,sample_size);
     check_counter = 0;
-    while ~checkPairs(moving,fixed,sample_pairs)
+    while ~checkPairs(mov_pts,fix_pts,sample_pairs)
         check_counter = check_counter+1;
         sample_pairs = sampleFromPairs(matching_pairs,sample_size);
     end
