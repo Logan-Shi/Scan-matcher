@@ -163,3 +163,109 @@ w_i^{(t)}=\begin{cases}
       1 & if \,r^2 \in [0,\frac{\mu}{\mu+1}\bar c^2)
    \end{cases}
 $$
+
+## Residuals
+
+### notation
+
+$$
+\bold b_i\in B \\
+\bold a_i\in A
+$$
+
+
+
+## generalized distance function
+
+$$
+r=d_{B}(\bold T*\bold a_i)
+$$
+
+$d_B(\cdot)$ denote the  minimum distance to B. 
+
+### generalized form
+
+$$
+\begin{align}
+d_B(\bold x) & =\min_{\bold b_i\in B}\norm{\bold x-\bold b_i}_{\bold C}\\
+       & =(\bold x - \bold b_i)^T*\bold C*(\bold x - \bold b_i)
+\end{align}
+$$
+
+#### point to point
+
+$$
+d_B(\bold x)=\min_{\bold b_i\in B}\norm{\bold x-\bold b_i}_{\bold I}
+$$
+
+#### point to line 
+
+$$
+d_B(\bold x)=\min_{\bold b_i\in B}\norm{\bold x-\bold b_i}_{(\bold I-\bold v\bold v^T)}
+$$
+
+where $v$ is the unit direction vector for a line. 
+
+#### point to plane
+
+$$
+d_B(\bold x)=\min_{\bold b_i\in B}\norm{\bold x-\bold b_i}_{(\bold n\bold n^T)}
+$$
+
+where $n$ is the unit normal vector for a plane. 
+
+## Quadratic formulation
+
+$$
+d_B^2(\bold T* \bold a_i)=(\bold T*\bold a_i - \bold b_i)^T*\bold C*(\bold T*\bold a_i - \bold b_i)
+$$
+
+$\bold T* \bold a_i$ is in fact linear in the elements of $\bold T$
+$$
+\bold T* \bold a_i=\bold R\bold a_i+\bold t=\underbrace{(\bold{\tilde a}_i\,\otimes\,\bold I_3)}_{\bold A_i}vec(\bold T)
+$$
+where $\tilde{\bold a}_i=[\bold a_i^T,1]^T$, $vec(T)=\begin{bmatrix}vec(\bold R)\\\bold t\end{bmatrix}$. 
+
+we name $\tau=vec(\bold T)$, the generalized distance is a quadratic function of $\tau$
+$$
+d_B^2(\bold T* \bold a_i)=\tilde \tau^T\underbrace{\bold N_i^T\bold C_i\bold N_i}_{\tilde {\bold M}_i}\tilde \tau
+$$
+with $\bold N_i=[\tilde {\bold a}_i\,\otimes\,\bold I_3|-\bold b_i]$ and $\tilde \tau=\begin{bmatrix} vec(\bold T\\1\end{bmatrix}^T$. 
+
+compression for the whole point cloud
+$$
+f(\bold T)=\sum^m_{i=1}d^2_{B_i}(\bold T\,\otimes\,\bold a_i)=\tilde{\bold \tau}^T\underbrace{\Bigg( \sum^m_{i=1}\tilde{\bold M}_i\Bigg)}_{\tilde{\bold M}}\tilde {\bold{\tau}}
+$$
+$\bold t$ can be derived in terms of $\bold R$
+$$
+\bold t(\bold R)=-\tilde{\bold M}_{\bold t,\bold t}^{-1}\tilde{\bold M}_{\bold t,\bold !t}\tilde{\bold r},\quad \tilde{\bold r}=\begin{bmatrix} vec(\bold R)\\1\end{bmatrix}
+$$
+the marginalized optimization problem is then
+$$
+f=\min_{\bold R\in SO(3)}\underbrace{\tilde{\bold r}^T\tilde{\bold Q}\tilde{\bold r}}_{q(\tilde{\bold r})},\quad \tilde{\bold r}=\begin{bmatrix} vec(\bold R)\\1\end{bmatrix}\label{eq:lg_01}
+$$
+where $\tilde{\bold Q}=\tilde{\bold M}/\tilde{\bold M}_{\bold t,\bold t}$. 
+
+### SO(3) constraints
+
+in $\refeq{eq:lg_01}$, the $SO(3)$ constraints are as follows
+$$
+SO(3)=\{\bold R\in \R^{3\times3}:\,\bold R^T\bold R=\bold I_3,det(\bold R)=+1\}
+$$
+the orthonormality is quadratic, but the determinant constraint is cubic. 
+
+### TIMs
+
+translation invariant measurement where $\bar{\bold b}_{ij}=\bold b_i-\bold b_j$, $\bar{\bold a}_{ij}=\bold a_i-\bold a_j$. (Construct with complete graph, can be simplified with max clique)
+$$
+\bar{\bold b}_{ij}=R\bar {\bold a}_{ij}+\bold o_{ij}+\bold{\epsilon}_{ij}
+$$
+in $\eqref{eq:op_1}$, set $\bold x$ as $\bold R$, $\bold y_i$ as $\bar{\bold b}_{ij},\bar {\bold a}_{ij}$. 
+$$
+r(\bar{\bold b}_{ij},\bar {\bold a}_{ij},\bold R)=\bar{\bold b}_{ij}-\bold R*\bar {\bold a}_{ij}
+$$
+
+### Li's method
+
+### symmetric workpieces
+
