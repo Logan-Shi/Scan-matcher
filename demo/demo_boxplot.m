@@ -1,6 +1,7 @@
-clear all
-load carsmall
-boxplot(MPG,Origin)
-title('Miles per Gallon by Vehicle Origin')
-xlabel('Country of Origin')
-ylabel('Miles per Gallon (MPG)')
+tbl = readtable('TemperatureData.csv');
+monthOrder = {'January','February','March','April','May','June','July', ...
+    'August','September','October','November','December'};
+tbl.Month = categorical(tbl.Month,monthOrder);
+boxchart(tbl.Month,tbl.TemperatureF,'GroupByColor',tbl.Year)
+ylabel('Temperature (F)')
+legend

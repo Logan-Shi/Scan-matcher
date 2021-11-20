@@ -1,6 +1,6 @@
-function dst = addNoise(dst,noise_bound,outliers_per,upper_bound)
+function [dst,randseq] = addNoise(dst,noise_bound,outliers_per,upper_bound)
 num = size(dst,2);
-noise = noise_bound * rand(3,num);
+noise = noise_bound * randn(3,num);
 dst = dst+noise;
 randseq = randperm(num);
 outliers_num = min(outliers_per*num,num-3);
@@ -10,4 +10,5 @@ for i = 1:outliers_num
     rand_vec = R*rand_vec;
     dst(:,randseq(i)) = rand_vec;
 end
+randseq = randseq(1:outliers_num);
 end

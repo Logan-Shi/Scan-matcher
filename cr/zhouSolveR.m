@@ -35,8 +35,8 @@ if noise_bound<1e-16
 end
 
 weights = ones(1,match_size);
-cost_threshold = 1e-12;
-max_iteration = 100;
+cost_threshold = 1e-13;
+max_iteration = 1000;
 for i = 1:max_iteration
     R = svdRot(src_tims,dst_tims,weights);
     diffs = (dst_tims-R*src_tims).^2;
