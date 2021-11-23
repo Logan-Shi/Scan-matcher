@@ -26,6 +26,7 @@ subplot(2,1,1)
 boxchart(T.outliers,T.error,'GroupByColor',T.methods)
 ax = gca;
 ax.YAxis.Scale ="log";
+
 ylabel('angular error')
 legend
 grid on

@@ -8,12 +8,8 @@ register scan with icp methods
 
 > check Tool T
 
-[ ] filtering
-
-[ ] feature
-
-[ ] coarse registration
-
 [ ] refine registration
+
+> refine on manifold
 
 [ ] try pseudo distance
