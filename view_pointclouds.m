@@ -1,9 +1,9 @@
 clear;clc;
 
-obj = {'teapot','bunny'};
+obj = {'fin','teapot','bunny'};
 objs = 1;
-methods = {'ICP','RANSAC','ZHOU','TEASER_incre'};
-type = 4;
+methods = {'ICP','RANSAC','ZHOU','TEASER_incre','TEASER'};
+type = 5;
 
 surfix = strcat('./data/',obj{objs},'/');
 ptCloud_path = strcat(surfix,'ptCloud_',methods{type});
@@ -18,3 +18,6 @@ xlabel(player.Axes,'X (mm)');
 ylabel(player.Axes,'Y (mm)');
 zlabel(player.Axes,'Z (mm)');
 view(player,ptCloud);
+
+ply_path = strcat(surfix,'ply_',methods{type},'.ply');
+pcwrite(ptCloud,ply_path);

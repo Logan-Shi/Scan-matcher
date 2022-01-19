@@ -1,7 +1,7 @@
 clear;clc;
-obj = 'teapot';
-batch_size = 5;
-mask = [];
+obj = 'fin';
+batch_size = 8;
+mask = [1 2 3 4];
 
 surfix = strcat('./data/',obj,'/');
 count = 0;

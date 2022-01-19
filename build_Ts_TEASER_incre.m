@@ -1,7 +1,7 @@
 clear;clc;
-obj = 'bunny';
+obj = 'fin';
 method = 'TEASER';
-voxel_size = 0.01;
+voxel_size = 1;
 is_graph = true;
 surfix = strcat('./data/',obj,'/');
 ptCloud_path = strcat(surfix,'ptCloud_raw.mat');

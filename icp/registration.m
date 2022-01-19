@@ -66,7 +66,7 @@ if isZHOU
     fixed_feature = extractFPFHFeatures(fixed_down);
     moving_feature = extractFPFHFeatures(moving_down);
     
-    match_threshold = 40;
+    match_threshold = 100;
     matching_pairs = findCorrespondenceFromFeature(moving_feature,fixed_feature,match_threshold);
     
     sample_size = 3;
@@ -97,7 +97,7 @@ end
 if isTEASER
     addpath('/home/logan/Documents/TEASER-plusplus/build/matlab')
     cbar2 = 1;
-    noise_bound = voxel_size*0.5;
+    noise_bound = voxel_size*3;
     rot_alg = 0;
     rot_gnc_factor = 1.4;
     rot_max_iters = 100;
@@ -130,7 +130,7 @@ if isTEASER
     fixed_feature = extractFPFHFeatures(fixed_down);
     moving_feature = extractFPFHFeatures(moving_down);
     
-    match_threshold = 40;
+    match_threshold = 100;
     matching_pairs = findCorrespondenceFromFeature(moving_feature,fixed_feature,match_threshold);
     matched_pts_moving = select(moving_down,matching_pairs(:,1));
     matched_pts_fixed = select(fixed_down,matching_pairs(:,2));
@@ -139,9 +139,9 @@ if isTEASER
     dst = double(matched_pts_fixed.Location');
     
 %     R = teaserSolveR(src,dst,cbar2,noise_bound,is_graph);
-    R = ransacSolveR(src,dst,cbar2,noise_bound,0.9,is_graph);
+%     R = ransacSolveR(src,dst,cbar2,noise_bound,0.9,is_graph);
 
-    [~, ~, t, time_taken] = teaser_solve(src, dst, 'Cbar2', cbar2, 'NoiseBound', noise_bound, ...
+    [~, R, t, time_taken] = teaser_solve(src, dst, 'Cbar2', cbar2, 'NoiseBound', noise_bound, ...
         'EstimateScaling', false, 'RotationCostThreshold', rot_cost_threshold);
     T = eye(4);
     T(1:3,1:3) = R;

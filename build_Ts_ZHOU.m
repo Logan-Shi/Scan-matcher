@@ -1,6 +1,6 @@
 clear;clc;
-obj = 'bunny';
-voxel_size = 0.005;
+obj = 'fin';
+voxel_size = 1;
 method = 'ZHOU';
 is_graph = true;
 surfix = strcat('./data/',obj,'/');
@@ -8,7 +8,7 @@ ptCloud_path = strcat(surfix,'ptCloud_raw.mat');
 load(ptCloud_path,'ptCloud');
 Tf = [];
 % profile on -historysize 50000000
-for id = 9
+for id = 2
     tform = registration(ptCloud{id},ptCloud{id-1},method,voxel_size,is_graph);
     Tf(:,:,id-1) = tform.T';
 end
