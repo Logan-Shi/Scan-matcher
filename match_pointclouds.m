@@ -1,10 +1,10 @@
 clear;clc;
 
 obj = {'fin','teapot','bunny'};
-objs = 1;
-methods = {'ICP','RANSAC','ZHOU','TEASER_incre','TEASER'};
+objs = 3;
+methods = {'ICP','RANSAC','ZHOU','TEASER_incre','TEASER','benchmark'};
 types = 5;
-mask = 1:4;
+mask = 1:3;
 
 for item = objs
     surfix = strcat('./data/',obj{item},'/');

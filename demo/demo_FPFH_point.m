@@ -9,6 +9,7 @@ keyInds = [6565, 10000];
 
 % Extract FPFH features for points at key indices
 features = extractFPFHFeatures(ptCloudIn, keyInds);
+features = extractTSFeatures(ptCloudIn);
 
 % Display key points on input point cloud
 ptKeyObj = pointCloud(ptCloudIn.Location(keyInds, :), 'Color', [255, 0, 0; 0, 0, 255]);

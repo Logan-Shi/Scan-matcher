@@ -1,7 +1,7 @@
 clear;clc;
 obj = 'fin';
 batch_size = 8;
-mask = [1 2 3 4];
+mask = [];
 
 surfix = strcat('./data/',obj,'/');
 count = 0;

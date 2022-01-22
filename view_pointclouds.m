@@ -1,8 +1,8 @@
 clear;clc;
 
 obj = {'fin','teapot','bunny'};
-objs = 1;
-methods = {'ICP','RANSAC','ZHOU','TEASER_incre','TEASER'};
+objs = 3;
+methods = {'ICP','RANSAC','ZHOU','TEASER_incre','TEASER','benchmark'};
 type = 5;
 
 surfix = strcat('./data/',obj{objs},'/');
