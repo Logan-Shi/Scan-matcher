@@ -1,14 +1,16 @@
 function tsFeatures = extractTS(ptCloud, keyInds, numNeighbors,weight)
-[indices, ~, ~] = performSearchImpl(ptCloud, keyInds, numNeighbors, inf);
+[indices, ~, valids] = performSearchImpl(ptCloud, keyInds, numNeighbors, inf);
 G = [1 0 0 0 0;
     0 1 0 0 0;
     0 0 1 0 0;
     0 0 0 0 -1;
     0 0 0 -1 0];
+start_idx = 1;
 for i = 1:length(keyInds)
     target = ptCloud.Location(keyInds(i),:);
     Target = [target,sum(target.^2)/2,1];
-    p = ptCloud.Location(indices((i-1)*numNeighbors+1:i*numNeighbors),:);
+    p = ptCloud.Location(indices(start_idx:start_idx+valids(i)-1),:);
+    start_idx = start_idx + valids(i);
     [v1,v2] = computePlane(p);
     C1 = zeros(5);C2 = zeros(5);
     for j = 1:size(p,1)

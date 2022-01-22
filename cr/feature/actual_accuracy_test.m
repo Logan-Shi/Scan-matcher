@@ -1,6 +1,6 @@
 clear;clc;close all;
 obj = 'bunny';
-voxel_size = 0.001;
+voxel_size = 0.08;
 methods = {'FPFH','CGA','Eigen'};
 is_graph = false;
 surfix = strcat('./data/',obj,'/');

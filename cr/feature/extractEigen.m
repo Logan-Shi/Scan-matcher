@@ -1,8 +1,9 @@
 function features = extractEigen(ptCloud, keyInds, numNeighbors,weight)
-[indices, ~, ~] = performSearchImpl(ptCloud, keyInds, numNeighbors, inf);
-
+[indices, ~, valids] = performSearchImpl(ptCloud, keyInds, numNeighbors, inf);
+start_idx = 0;
 for i = 1:length(keyInds)
-    p = ptCloud.Location(indices((i-1)*numNeighbors+1:i*numNeighbors),:);
+    p = ptCloud.Location(indices(start_idx:start_idx+valids(i)-1),:);
+    start_idx = start_idx + valids(i);
     feature = zeros(1, 7, 'like', p);
 
     % Find the covariance matrix.
