@@ -12,14 +12,12 @@ register scan with icp methods
 7. run `benchmark_boxchart.m` to plot the result
 
 
-# TODO list
+# Compare Results
 
-[-] match scan with arms data (JAKA, ABB & UR)
+* High noise level
+  
+![pic1](result_0.01.png)
 
-> check Tool T
+* Low noise level
 
-[ ] refine registration
-
-> refine on manifold
-
-[ ] try pseudo distance
+![pic2](result_0.001.png)
